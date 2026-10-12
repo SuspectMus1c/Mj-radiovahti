@@ -82,6 +82,7 @@ def laheta_telegram(kanava, taajuus, artisti, biisi):
     
     viesti = f"🕺 🚨 **KUNINGAS SOI RADIOSSA!**\n\n📻 **Kanava:** {kanava}\n📡 **Taajuus Lempäälässä:** {taajuus}\n🎵 **Biisi:** {artisti} - {biisi}"
     
+    # KORJATTU OSOITERIVI TÄHÄN:
     url = f"https://telegram.org{token}/sendMessage"
     payload = {"chat_id": chat_id, "text": viesti, "parse_mode": "Markdown"}
     
@@ -96,4 +97,3 @@ if __name__ == "__main__":
         tarkista_radiot()
         if i < 4:
             time.sleep(60) # Odotetaan 1 minuutti ennen seuraavaa tarkistusta
-                
