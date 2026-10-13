@@ -36,7 +36,7 @@ TAAJUUDET = {
 }
 
 def tarkista_radiot():
-    url = "https://nytsoi.fi/"
+    url = "https://nytsoi.fi"
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
     
     try:
@@ -68,7 +68,6 @@ def tarkista_radiot():
                 elif "rockwell" in artisti_l and "somebody" in biisi_l: osuma = True
                 
                 if osuma:
-                    # Jos kanavaa ei löydy taajuuskartasta, käytetään oletustekstiä
                     taajuus = TAAJUUDET.get(kanava_l, "FM-kanava (Tarkista paikallinen taajuus)")
                     laheta_telegram(kanava_nimi, taajuus, artisti, biisi)
             except Exception:
@@ -82,7 +81,6 @@ def laheta_telegram(kanava, taajuus, artisti, biisi):
     
     viesti = f"🕺 🚨 **KUNINGAS SOI RADIOSSA!**\n\n📻 **Kanava:** {kanava}\n📡 **Taajuus Lempäälässä:** {taajuus}\n🎵 **Biisi:** {artisti} - {biisi}"
     
-    # KORJATTU OSOITERIVI TÄHÄN:
     url = f"https://telegram.org{token}/sendMessage"
     payload = {"chat_id": chat_id, "text": viesti, "parse_mode": "Markdown"}
     
@@ -92,8 +90,11 @@ def laheta_telegram(kanava, taajuus, artisti, biisi):
         print(f"Virhe Telegram-viestin lähetyksessä: {e}")
 
 if __name__ == "__main__":
-    # Ajetaan skripti 5 kertaa minuutin välein (kattamaan GitHub Actionsin 5min cron-rajoitus)
-    for i in range(5):
+    print("Michael Jackson -radiovahti käynnistetty 1 tunnin jaksolle...")
+    
+    # Koodi pyörii taustalla tasan 60 kertaa (60 minuuttia = 1 tunti)
+    for i in range(60):
         tarkista_radiot()
-        if i < 4:
+        if i < 59:
             time.sleep(60) # Odotetaan 1 minuutti ennen seuraavaa tarkistusta
+                    
