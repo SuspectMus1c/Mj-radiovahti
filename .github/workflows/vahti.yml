@@ -1,7 +1,8 @@
 name: MJ Radio Vahti
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    # Käynnistää koodin automaattisesti kerran tunnissa (aina minuuteilla 0)
+    - cron: '0 * * * *'
   workflow_dispatch:
 concurrency:
   group: radio-vahti
@@ -9,11 +10,12 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
+    timeout-minutes: 70 # Katkaisee ajon vasta jos se jostain syystä venyy yli 70 minuutin
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
       - run: pip install requests beautifulsoup4
       - env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
